@@ -5,8 +5,67 @@
 ## Copyright 2017 - Armijn Hemel for Tjaldur Software Governance Solutions
 ## SPDX-Identifier: GPL-3.0
 
-import sys, os, argparse, configparser
+import sys, os, argparse, configparser, random, time
 import py3buddy
+
+
+def panic(ibuddy, paniccount):
+	## a demo version to show some of the  capabilities of
+	## the iBuddy
+
+	## first reset the iBuddy
+	ibuddy.reset()
+	for i in range(0, paniccount):
+		## set the wings to high
+		ibuddy.wings('high')
+
+		## turn on the heart LED
+		ibuddy.toggleheart(True)
+
+		## pick a random colour for the head LED
+		ibuddy.setcolour(random.choice(py3buddy.allcolours))
+
+		## wiggle randomly
+		ibuddy.wiggle(random.choice(['right', 'left', 'middle', 'middlereset']))
+
+		## create the message, then send it, and sleep for 0.1 seconds
+		ibuddy.sendcommand()
+		time.sleep(0.1)
+
+		## set the wings to low
+		ibuddy.wings('low')
+
+		## turn off the heart LED
+		ibuddy.toggleheart(False)
+
+		## pick a random colour for the head LED
+		ibuddy.setcolour(random.choice(py3buddy.allcolours))
+
+		## wiggle randomly
+		ibuddy.wiggle(random.choice(['right', 'left', 'middle', 'middlereset']))
+		ibuddy.sendcommand()
+		time.sleep(0.1)
+	## extra reset as sometimes the device doesn't respond
+	ibuddy.reset()
+	ibuddy.reset()
+
+def dice(ibuddy, dicecount):
+	## turn iBuddy into an 8 sided dice with colours
+	ibuddy.reset()
+	dicecounter = 1
+	for i in range(0, dicecount):
+		## pick a random colour for the head LED
+		ibuddy.setcolour(random.choice(py3buddy.allcolours))
+		## create the message, then send it, and sleep for 0.1 seconds
+		dicecounter += 1
+		if dicecounter == dicecount:
+			ibuddy.toggleheart(True)
+		ibuddy.sendcommand()
+		time.sleep(0.1)
+	time.sleep(5)
+	## extra reset as sometimes the device doesn't respond
+	ibuddy.reset()
+	ibuddy.reset()
 
 def main(argv):
 	parser = argparse.ArgumentParser()
@@ -55,7 +114,9 @@ def main(argv):
 	if ibuddy.dev == None:
 		print("No iBuddy found, or iBuddy not accessible", file=sys.stderr)
 		sys.exit(1)
-	ibuddy.panic(30)
+
+	#panic(ibuddy,10)
+	dice(ibuddy,60)
 
 if __name__ == "__main__":
 	main(sys.argv)
