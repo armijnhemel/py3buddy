@@ -127,9 +127,22 @@ def main(argv):
 		print("No iBuddy found, or iBuddy not accessible", file=sys.stderr)
 		sys.exit(1)
 
-	#panic(ibuddy,10)
-	colourloop(ibuddy, 4)
+	print("\npy3buddy demo scripts\n")
+	print("Demo 1: PANIC!\n")
+	panic(ibuddy,10)
+
+	looptimes = 4
+	print("Demo 2: Looping through all available colours %d times\n" % looptimes)
+	colourloop(ibuddy, looptimes)
+
+	print("Demo 3: Playing dice\n")
 	dice(ibuddy,60)
+
+	print("Demo 4: Executing commands\n")
+	cmds = ["WHITE:WINGSHIGH:HEART:GO:SLEEP", "RED:WINGSHIGH:GO:SLEEP:NOHEART:LEFT:GO:SLEEP:RESET", "::BLUE:GO:SHORTSLEEP"]
+	for cmd in cmds:
+		ibuddy.executecommand(cmd)
+	ibuddy.reset()
 
 if __name__ == "__main__":
 	main(sys.argv)

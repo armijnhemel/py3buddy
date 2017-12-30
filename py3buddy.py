@@ -86,7 +86,21 @@ YELLOW = {'red': True, 'blue': False, 'green': True}
 PURPLE = {'red': True, 'blue': True, 'green': False}
 WHITE = {'red': True, 'blue': True, 'green': True}
 
+## a list of all colours
 allcolours = [NOCOLOUR, RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, WHITE]
+
+## a list of macros for sleep, in seconds
+ULTRASHORTSLEEP = 0.05
+SHORTSLEEP = 0.1
+SLEEP = 1
+LONGSLEEP = 10
+GLACIAL = 100
+
+## a list of valid commands for the macro language
+validcmds = set(['ULTRASHORTSLEEP', 'SHORTSLEEP', 'SLEEP', 'LONGSLEEP', 'GLACIAL', 'RESET', 'GO',
+                  'WINGSHIGH', 'WINGSLOW', 'HEART', 'NOHEART', 'NOCOLOUR', 'RED',
+                  'BLUE', 'GREEN', 'CYAN', 'YELLOW', 'PURPLE', 'WHITE', 'LEFT',
+                  'RIGHT', 'MIDDLE', 'MIDDLE2'])
 
 class iBuddy:
 	## First find the iBuddy. There apparently also have been iBuddy products
@@ -94,13 +108,15 @@ class iBuddy:
 	def __init__(self, buddy_config):
 		self.dev = None
 		if not 'productid' in buddy_config:
-			return None
+			return
+		if not buddy_config['productid'] in set([0x0001, 0x0002]):
+			return
 		self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
 
 		## check if the device was found. If not, exit.
 		if self.dev is None:
 			raise ValueError('Device not found')
-			return None
+			return
 
 		## first remove all the kernel drivers. Probably better to do this
 		## with a udev blacklist rule?
@@ -108,13 +124,13 @@ class iBuddy:
 			if self.dev.is_kernel_driver_active(0) is True:
 				self.dev.detach_kernel_driver(0)
 		except usb.core.USBError as e:
-			return None
+			return
 
 		try:
 			if self.dev.is_kernel_driver_active(1) is True:
 				self.dev.detach_kernel_driver(1)
 		except usb.core.USBError as e:
-			return None
+			return
 
 		## there is just one configuration in the iBuddy, so use it
 		## (is this necessary?)
@@ -217,3 +233,92 @@ class iBuddy:
 		msg = self.createmsg()
 		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
 		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
+	def executecommand(self, cmd):
+		## the original version of pybuddy had a macro-like language:
+		## https://github.com/ewall/pybuddy/blob/master/src/pybuddy-daemon.py#L170
+		##
+		## Do something similar here, but make it a bit easier (no recursive calls,
+		## easier to specify colours, different types of sleep)
+		##
+		## Commands are colon separated
+		##
+		## For the heart LED:
+		## * HEART
+		## * NOHEART
+		##
+		## For the head LED:
+		## * colour name (NOCOLOUR, RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, WHITE)
+		##
+		## For wiggle:
+		## * LEFT
+		## * RIGHT
+		## * MIDDLE
+		## * MIDDLE2 (not a good name)
+		##
+		## For wings:
+		## * WINGSHIGH
+		## * WINGSLOW
+		##
+		## For sleep:
+		## * SHORTSLEEP
+		## * SLEEP
+		## * LONGSLEEP
+		## * GLACIAL
+		##
+		## To execute a command:
+		## * GO
+		##
+		## To reset:
+		## * RESET
+		##
+		## First store a list of commands
+		msgs = cmd.split(':')
+
+		## check if the list of commands actually makes sense
+		## if not, return. Empty commands are allowed.
+		if len(list(filter(lambda x: x not in validcmds and x != '', msgs))) != 0:
+			print(msgs)
+			return
+		for i in msgs:
+			if i == 'HEART':
+				self.toggleheart(True)
+			elif i == 'NOHEART':
+				self.toggleheart(False)
+			elif i == 'NOCOLOUR':
+				self.setcolour(NOCOLOUR)
+			elif i == 'RED':
+				self.setcolour(RED)
+			elif i == 'BLUE':
+				self.setcolour(BLUE)
+			elif i == 'GREEN':
+				self.setcolour(GREEN)
+			elif i == 'CYAN':
+				self.setcolour(CYAN)
+			elif i == 'YELLOW':
+				self.setcolour(YELLOW)
+			elif i == 'PURPLE':
+				self.setcolour(PURPLE)
+			elif i == 'WHITE':
+				self.setcolour(WHITE)
+			elif i == 'LEFT':
+				self.wiggle('left')
+			elif i == 'RIGHT':
+				self.wiggle('right')
+			elif i == 'MIDDLE':
+				self.wiggle('middle')
+			elif i == 'MIDDLE2':
+				self.wiggle('middlereset')
+			elif i == 'GO':
+				self.sendcommand()
+			elif i == 'RESET':
+				self.reset()
+			elif i == 'ULTRASHORTSLEEP':
+				time.sleep(ULTRASHORTSLEEP)
+			elif i == 'SHORTSLEEP':
+				time.sleep(SHORTSLEEP)
+			elif i == 'SLEEP':
+				time.sleep(SLEEP)
+			elif i == 'LONGSLEEP':
+				time.sleep(LONGSLEEP)
+			elif i == 'GLACIAL':
+				time.sleep(GLACIAL)
