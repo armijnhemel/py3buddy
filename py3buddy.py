@@ -26,7 +26,7 @@
 ## for some of the explanations of the USB part
 
 import usb.core, usb.util
-import sys, os, time, argparse, configparser
+import sys, os, time, argparse, configparser, random
 
 ## The iBuddy works as follows (according to other people's code):
 ## * a setup message is sent every time
@@ -51,7 +51,7 @@ import sys, os, time, argparse, configparser
 ## * wings (bits 2,3)
 ## * motor (bits 0,1)
 ##
-## To set a capability the relevant bits need to be turnde off. The easiest
+## To set a capability the relevant bits need to be turned off. The easiest
 ## way to do this is by XORing with the message byte, of which the initial value
 ## is 0xff.
 ## For example to enable the heart LED bit 7 needs to be 0, so
@@ -75,6 +75,18 @@ messagebytes = [0x55, 0x53, 0x42, 0x43, 0x00, 0x40, 0x02]
 ## the reset message
 resetbytes = messagebytes + [0xff]
 resetmsg = bytes(resetbytes)
+
+## some convenience dicts for colours
+NOCOLOUR = {'red': False, 'blue': False, 'green': False}
+RED = {'red': True, 'blue': False, 'green': False}
+BLUE = {'red': False, 'blue': True, 'green': False}
+GREEN = {'red': False, 'blue': False, 'green': True}
+CYAN = {'red': False, 'blue': True, 'green': True}
+YELLOW = {'red': True, 'blue': False, 'green': True}
+PURPLE = {'red': True, 'blue': True, 'green': False}
+WHITE = {'red': True, 'blue': True, 'green': True}
+
+allcolours = [NOCOLOUR, RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, WHITE]
 
 class iBuddy:
 	## First find the iBuddy. There apparently also have been iBuddy products
@@ -110,27 +122,139 @@ class iBuddy:
 
 		## then grab the active configuration (a bit superfluous here though)
 		#self.cfg = self.dev.get_active_configuration()
+		self.command = 0xff
+		self.pos = None
+		if 'reset_position' in buddy_config:
+			self.resetpos = buddy_config['reset_position']
+		else:
+			self.resetpos = False
 	def reset(self):
 		## method to explicitely reset the iBuddy
+		## if configured it will also reset its wiggling position
+		## to center, although for right this does not always
+		## seem to work
+		if self.resetpos:
+			self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
+			if self.pos == 'left':
+				self.wiggle('right')
+				msg = self.createmsg()
+				self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
+				time.sleep(0.05)
+				self.wiggle('middle')
+				msg = self.createmsg()
+				self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
+				self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
+			elif self.pos == 'right':
+				self.wiggle('middlereset')
+				msg = self.createmsg()
+				self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
 		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
 		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, resetmsg)
-	def demo(self):
+		## reset the command byte
+		self.command = 0xff
+	def wiggle(self, pos):
+		## method to wiggle
+		## first reset the status explicitely to "no wiggle"
+		## 0b11 == 3
+		self.command = self.command | 3
+		if pos == 'middle':
+			## middle = 0
+			## 0b00
+			self.command -= 3
+			self.pos = 'middle'
+		elif pos == 'left':
+			## left = 1
+			## 0b01
+			self.command -= 2
+			self.pos = 'left'
+		elif pos == 'right':
+			## right = 2
+			## 0b10
+			self.command -= 1
+			self.pos = 'right'
+		elif pos == 'middlereset':
+			## initial position = 3
+			## 0b11
+			self.command = self.command | 3
+			self.pos = 'middlereset'
+	def toggleheart(self, heart):
+		## method to toggle the heart LED
+		## first reset the status explicitely to
+		## "no heart LED"
+		self.command = self.command | 128
+		if heart:
+			self.command -= 128
+	def wings(self, wings):
+		## method to set the position of the wings
+		## first reset the status explicitely to
+		## "neutral"
+		## 0b1100 == 12
+		self.command = self.command | 12
+		if wings == 'high':
+			# 0b0100
+			self.command -= 8
+		elif wings == 'low':
+			# 0b1000 so
+			self.command -= 4
+	def setcolour(self, colour):
+		## method to set the colour of the head LED
+		## colour profile: {'r', 'g', 'b'}
+		## first reset the status explicitely to
+		## "no colour"
+		## 0b1110000 == 112
+		self.command = self.command | 112
+		if colour['red']:
+			self.command -= 16
+		if colour['green']:
+			self.command -= 32
+		if colour['blue']:
+			self.command -= 64
+	def createmsg(self):
+		msgbytes = messagebytes + [self.command]
+		msg = bytes(msgbytes)
+		return msg
+	def sendcommand(self):
+		msg = self.createmsg()
+		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
+		self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
+	def panic(self, paniccount):
+		## a demo version to show some of the  capabilities of
+		## the iBuddy
+
+		## first reset the iBuddy
 		self.reset()
-		## demo commands copied from pybuddy
-		msgs = [
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0xea],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0x55],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0xba],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0x25],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0xca],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0x15],
-		[0x55, 0x53, 0x42, 0x43, 0x0, 0x40, 0x2, 0x8a],
-		]
-		for i in msgs:
-			retval = self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
-			msg = bytes(i)
-			retval = self.dev.ctrl_transfer(0x21, 0x09, 2, 1, msg)
+		for i in range(0, paniccount):
+			## set the wings to high
+			self.wings('high')
+
+			## turn on the heart LED
+			self.toggleheart(True)
+
+			## pick a random colour for the head LED
+			self.setcolour(random.choice(allcolours))
+
+			## wiggle randomly
+			self.wiggle(random.choice(['right', 'left', 'middle', 'middlereset']))
+
+			## create the message, then send it, and sleep for 0.1 seconds
+			self.sendcommand()
 			time.sleep(0.1)
+
+			## set the wings to low
+			self.wings('low')
+
+			## turn off the heart LED
+			self.toggleheart(False)
+
+			## pick a random colour for the head LED
+			self.setcolour(random.choice(allcolours))
+
+			## wiggle randomly
+			self.wiggle(random.choice(['right', 'left', 'middle', 'middlereset']))
+			self.sendcommand()
+			time.sleep(0.1)
+		## extra reset as sometimes the device doesn't respond
+		self.reset()
 		self.reset()
 
 def main(argv):
@@ -167,12 +291,20 @@ def main(argv):
 			except:
 				pass
 
+			buddy_config['reset_position'] = False
+			try:
+				reset_position_val = config.get(section, 'reset_position')
+				if reset_position_val == 'yes':
+					buddy_config['reset_position'] = True
+			except:
+				pass
+
 	## initialize an iBuddy and check if a device was found and is accessible
 	ibuddy = iBuddy(buddy_config)
 	if ibuddy.dev == None:
 		print("No iBuddy found, or iBuddy not accessible", file=sys.stderr)
 		sys.exit(1)
-	ibuddy.demo()
+	ibuddy.panic(30)
 
 if __name__ == "__main__":
 	main(sys.argv)
