@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 
+## Demo program to show how to use the py3buddy module
+##
+## Copyright 2017 - Armijn Hemel for Tjaldur Software Governance Solutions
+## SPDX-Identifier: GPL-3.0
+
 import sys, os, argparse, configparser
 import py3buddy
 
