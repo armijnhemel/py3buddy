@@ -69,9 +69,9 @@ def dice(ibuddy, dicecount):
 		## pick a random colour for the head LED
 		ibuddy.setcolour(random.choice(py3buddy.allcolours))
 		## create the message, then send it, and sleep for 0.1 seconds
-		dicecounter += 1
 		if dicecounter == dicecount:
 			ibuddy.toggleheart(True)
+		dicecounter += 1
 		ibuddy.sendcommand()
 		time.sleep(0.1)
 	time.sleep(5)
