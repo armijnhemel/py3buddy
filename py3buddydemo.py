@@ -49,6 +49,18 @@ def panic(ibuddy, paniccount):
 	ibuddy.reset()
 	ibuddy.reset()
 
+## demo code to loop through the 8 available colours for the head LED
+## good to train people what colour to pick for the dice
+def colourloop(ibuddy, loopcount):
+	ibuddy.reset()
+	for i in range(0, loopcount):
+		for c in py3buddy.allcolours:
+			ibuddy.setcolour(c)
+			ibuddy.sendcommand()
+			time.sleep(1)
+	ibuddy.reset()
+	ibuddy.reset()
+
 def dice(ibuddy, dicecount):
 	## turn iBuddy into an 8 sided dice with colours
 	ibuddy.reset()
@@ -116,6 +128,7 @@ def main(argv):
 		sys.exit(1)
 
 	#panic(ibuddy,10)
+	colourloop(ibuddy, 4)
 	dice(ibuddy,60)
 
 if __name__ == "__main__":
