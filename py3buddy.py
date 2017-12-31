@@ -26,7 +26,7 @@
 ## for some of the explanations of the USB part
 
 import usb.core, usb.util
-import sys, os, time, random
+import sys, os, time
 
 ## The iBuddy works as follows (according to other people's code):
 ## * a setup message is sent every time
@@ -113,9 +113,8 @@ class iBuddy:
 			return
 		self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
 
-		## check if the device was found. If not, exit.
+		## check if the device was found. If not, return.
 		if self.dev is None:
-			raise ValueError('Device not found')
 			return
 
 		## first remove all the kernel drivers. Probably better to do this
