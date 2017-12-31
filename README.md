@@ -6,9 +6,10 @@ Python 3 code to work with the iBuddy MSN figurine released under the GPL-3.0 li
 * py3buddy.config -- example configuration file
 * 99-ibuddy.rules -- udev rules for iBuddy with productid 0x0002
 
-This code was inspired by pybuddy (especially the idea for a macro language),
-but no code was copied. The code for pybuddy can be found here (note: the
-original Google code site seems to have been gone):
+This code was inspired by pybuddy (especially the idea for a macro language,
+although the original product also had something like this), but no code was
+copied. The code for pybuddy can be found here (note: the original Google code
+site seems to gone):
 
 https://github.com/ewall/pybuddy/
 
