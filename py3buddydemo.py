@@ -8,7 +8,6 @@
 import sys, os, argparse, configparser, random, time
 import py3buddy
 
-
 def panic(ibuddy, paniccount):
 	## a demo version to show some of the  capabilities of
 	## the iBuddy
@@ -65,15 +64,33 @@ def dice(ibuddy, dicecount):
 	## turn iBuddy into an 8 sided dice with colours
 	ibuddy.reset()
 	dicecounter = 1
+	chosencolour = None
 	for i in range(0, dicecount):
 		## pick a random colour for the head LED
-		ibuddy.setcolour(random.choice(py3buddy.allcolours))
+		chosencolour = random.choice(py3buddy.allcolours)
+		ibuddy.setcolour(chosencolour)
 		## create the message, then send it, and sleep for 0.1 seconds
 		if dicecounter == dicecount:
 			ibuddy.toggleheart(True)
 		dicecounter += 1
 		ibuddy.sendcommand()
 		time.sleep(0.1)
+	if chosencolour == py3buddy.NOCOLOUR:
+		print("iBuddy chose: no colour!\n")
+	elif chosencolour == py3buddy.RED:
+		print("iBuddy chose: red!\n")
+	elif chosencolour == py3buddy.BLUE:
+		print("iBuddy chose: blue!\n")
+	elif chosencolour == py3buddy.GREEN:
+		print("iBuddy chose: green!\n")
+	elif chosencolour == py3buddy.CYAN:
+		print("iBuddy chose: cyan!\n")
+	elif chosencolour == py3buddy.YELLOW:
+		print("iBuddy chose: yellow!\n")
+	elif chosencolour == py3buddy.PURPLE:
+		print("iBuddy chose: purple!\n")
+	elif chosencolour == py3buddy.WHITE:
+		print("iBuddy chose: white!\n")
 	time.sleep(5)
 	## extra reset as sometimes the device doesn't respond
 	ibuddy.reset()
@@ -141,6 +158,7 @@ def main(argv):
 	print("Demo 4: Executing commands\n")
 	cmds = ["WHITE:WINGSHIGH:HEART:GO:SLEEP", "RED:WINGSHIGH:GO:SLEEP:NOHEART:LEFT:GO:SLEEP:RESET", "::BLUE:GO:SHORTSLEEP"]
 	for cmd in cmds:
+		print("Executing: ", cmd)
 		ibuddy.executecommand(cmd)
 	ibuddy.reset()
 
