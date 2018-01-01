@@ -310,6 +310,10 @@ class iBuddy:
 				self.wiggle('middle')
 			elif i == 'MIDDLE2':
 				self.wiggle('middlereset')
+			elif i == 'WINGSHIGH':
+				self.wings('high')
+			elif i == 'WINGSLOW':
+				self.wings('low')
 			elif i == 'GO':
 				self.sendcommand()
 			elif i == 'RESET':
