@@ -52,12 +52,15 @@ import sys, os, time
 ## * motor (bits 0,1)
 ##
 ## To set a capability the relevant bits need to be turned off. The easiest
-## way to do this is by XORing with the message byte, of which the initial value
-## is 0xff.
-## For example to enable the heart LED bit 7 needs to be 0, so
-## XOR with 128 (0b10000000):
+## way to do this is by distracting integers. The initial value is 0xff (255).
 ##
-## hex(0xff ^ 128) = 0x7f
+## For example to enable the heart LED bit 7 needs to be 0, so
+## distract 128 (0b10000000):
+##
+## hex(0xff - 128) = 0x7f
+##
+## For this to work the easiest the bits have first to be brought to a known state
+## (all 1).
 ##
 ## heart LED: 0 is on, 1 is off
 ## head LED: R is bit 4, G is bit 5, B is bit 6, 0 is on, 1 is off
