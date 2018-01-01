@@ -1,0 +1,73 @@
+The original iBuddy software allowed you to define your own actions for smileys
+or words sent via MSN Messenger.
+
+The original version of pybuddy also had a macro-like language:
+https://github.com/ewall/pybuddy/blob/master/src/pybuddy-daemon.py#L170
+
+In py3buddy support for a macro langage was also added, although slightly
+different to the one in pybuddy. I think it is easier (no recursive calls,
+easier to specify colours, different types of sleep implemented), but I am
+sure that people will disagree with me here.
+
+Commands are colon separated (':'). There are 4 different action categories:
+
+1 heart LED
+2 head LED (colour)
+3 wiggle
+4 wings
+
+plus reset and sleep. There is als a separate 'go' command that will send the
+command to the device.
+
+For each of the 4 categories only the last action specified before the command
+is executed will count. So if for example you say that the head should be red,
+then blue, but no exection command is given, then the head will be blue.
+
+If two commands are executed, but no sleep command is given between the two
+commands, then the commands will be executed but perhaps not be noticible.
+
+So two rules of thumb:
+
+1. sleep between each command sequence, or you will possible not see the action
+being performed.
+
+2. only use one action from each category
+
+For the heart LED:
+* HEART
+* NOHEART
+
+For the head LED:
+* colour name (NOCOLOUR, RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, WHITE)
+
+For wiggle:
+* LEFT
+* RIGHT
+* MIDDLE
+* MIDDLE2 (not a good name)
+
+For wings:
+* WINGSHIGH
+* WINGSLOW
+
+For sleep:
+* SHORTSLEEP
+* SLEEP
+* LONGSLEEP
+* GLACIAL
+
+To execute a command:
+* GO
+
+To reset:
+* RESET
+
+Example command:
+
+HEART:RED:WINGSLOW:GO:SLEEP:NOHEART:BLUE:WINGSUP:GO:LONGSLEEP:RESET
+
+This will first set the head LED to red, turn on the heart LED and set the
+wings in 'high' position. This command is then executed and the program sleeps
+a bit. Then it turns off the heart LED, sets the head LED to blue, pulls the
+wings down, executes the command, then sleeps for a longer time, before
+resetting the device to its initial state (everything off).
