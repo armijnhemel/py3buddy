@@ -156,7 +156,7 @@ def main(argv):
 	dice(ibuddy,60)
 
 	print("Demo 4: Executing commands\n")
-	cmds = ["WHITE:WINGSHIGH:HEART:GO:SLEEP", "RED:WINGSHIGH:GO:SLEEP:NOHEART:LEFT:GO:SLEEP:RESET", "::BLUE:GO:SHORTSLEEP"]
+	cmds = ["WHITE:WINGSHIGH:HEART:GO:SLEEP", "RED:WINGSLOW:GO:SLEEP:NOHEART:LEFT:GO:SLEEP:RESET", "::BLUE:GO:SHORTSLEEP"]
 	for cmd in cmds:
 		print("Executing: ", cmd)
 		ibuddy.executecommand(cmd)
