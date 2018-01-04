@@ -111,13 +111,24 @@ class iBuddy:
 	def __init__(self, buddy_config):
 		self.dev = None
 		if not 'productid' in buddy_config:
-			return
-		if not buddy_config['productid'] in set([0x0001, 0x0002, 0x004]):
-			return
-		self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
+			## productid not hardcoded, so search for it
+			buddyfound = False
+			for product_id in [0x0001, 0x0002, 0x0004]:
+				self.dev = usb.core.find(idVendor=0x1130, idProduct=product_id)
+				if self.dev == None:
+					continue
+				else:
+					buddyfound = True
+					break
+			if not buddyfound:
+				return
+		else:
+			if not buddy_config['productid'] in set([0x0001, 0x0002, 0x004]):
+				return
+			self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
 
 		## check if the device was found. If not, return.
-		if self.dev is None:
+		if self.dev == None:
 			return
 
 		## first remove all the kernel drivers. Probably better to do this
