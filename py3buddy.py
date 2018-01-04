@@ -112,7 +112,7 @@ class iBuddy:
 		self.dev = None
 		if not 'productid' in buddy_config:
 			return
-		if not buddy_config['productid'] in set([0x0001, 0x0002]):
+		if not buddy_config['productid'] in set([0x0001, 0x0002, 0x004]):
 			return
 		self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
 
