@@ -126,12 +126,14 @@ class iBuddy:
 			if self.dev.is_kernel_driver_active(0) is True:
 				self.dev.detach_kernel_driver(0)
 		except usb.core.USBError as e:
+			self.dev = None
 			return
 
 		try:
 			if self.dev.is_kernel_driver_active(1) is True:
 				self.dev.detach_kernel_driver(1)
 		except usb.core.USBError as e:
+			self.dev = None
 			return
 
 		## there is just one configuration in the iBuddy, so use it
