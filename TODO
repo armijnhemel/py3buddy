@@ -1,2 +1,23 @@
 * add daemonized version similar to original pybuddy software
 * package software
+* better error handling if two programs try to talk to the device. Example:
+
+Traceback (most recent call last):
+  File "py3buddydemo.py", line 166, in <module>
+    main(sys.argv)
+  File "py3buddydemo.py", line 149, in main
+    panic(ibuddy,210)
+  File "py3buddydemo.py", line 16, in panic
+    ibuddy.reset()
+  File "/home/armijn/git/py3buddy/py3buddy.py", line 168, in reset
+    self.dev.ctrl_transfer(0x21, 0x09, 2, 1, setupmsg)
+  File "/usr/lib/python3.6/site-packages/usb/core.py", line 1034, in ctrl_transfer
+    self._ctx.managed_claim_interface(self, interface_number)
+  File "/usr/lib/python3.6/site-packages/usb/core.py", line 102, in wrapper
+    return f(self, *args, **kwargs)
+  File "/usr/lib/python3.6/site-packages/usb/core.py", line 167, in managed_claim_interface
+    self.backend.claim_interface(self.handle, i)
+  File "/usr/lib/python3.6/site-packages/usb/backend/libusb1.py", line 811, in claim_interface
+    _check(self.lib.libusb_claim_interface(dev_handle.handle, intf))
+  File "/usr/lib/python3.6/site-packages/usb/backend/libusb1.py", line 595, in _check
+    raise USBError(_strerror(ret), ret, _libusb_errno[ret])
