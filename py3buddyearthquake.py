@@ -13,11 +13,12 @@ import py3buddy
 import twitter
 
 def panic(ibuddy, paniccount):
-	## a demo version to show some of the  capabilities of
+	## a demo version to show some of the capabilities of
 	## the iBuddy
 
 	## first reset the iBuddy
 	ibuddy.reset()
+
 	for i in range(0, paniccount):
 		## set the wings to high
 		ibuddy.wings('high')
@@ -136,12 +137,12 @@ def main(argv):
 		## get earthquake data from a Twitter account
 		quakes = api.GetUserTimeline(screen_name='quakestoday')
 		for q in quakes:
-			if q.created_at_in_seconds in ignorelist:
-				continue
 			## only process the most recent ones that happened in the last 15 minutes = 900 seconds
 			if curtime - q.created_at_in_seconds > 900:
 				continue
 			quakedata = q.AsDict()
+			if quakedata['id'] in ignorelist:
+				continue
 			magnituderes = magnitudere.match(quakedata['text'])
 			if magnituderes == None:
 				continue
@@ -153,10 +154,11 @@ def main(argv):
 				location = 'unspecified'
 			print('Time %s, location: %s, magnitude %f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
 			panic(ibuddy,shakelength)
-			ignorelist.add(q.created_at_in_seconds)
+			ignorelist.add(quakedata['id'])
 			time.sleep(0.5)
 		time.sleep(60)
 
+	## finally reset the i-buddy again
 	ibuddy.reset()
 
 if __name__ == "__main__":
