@@ -91,6 +91,7 @@ WHITE = {'red': True, 'blue': True, 'green': True}
 
 ## a list of all colours
 allcolours = [NOCOLOUR, RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, WHITE]
+allcolours_string = ["NOCOLOUR", "RED", "BLUE", "GREEN", "CYAN", "YELLOW", "PURPLE", "WHITE"]
 
 ## a list of macros for sleep, in seconds
 ULTRASHORTSLEEP = 0.05
