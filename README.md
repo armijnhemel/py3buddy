@@ -3,11 +3,18 @@ Python 3 code to work with the iBuddy MSN figurine released under the GPL-3.0 li
 
 * py3buddy.py -- main file with class
 
+* py3buddydbus.py -- DBus wrapper around the iBuddy, accepts commands in the
+macro language and executes it
+
 * py3buddydemo.py -- demo code (panic, looping through all colours, 8 sided
 dice, executing commands)
 
 * py3buddyearthquake.py -- demo code (monitoring a Twitter channel with
 earthquake information and shake whenever the earth shakes)
+
+* py3buddyearthquakedbus.py -- demo code (monitoring a Twitter channel with
+earthquake information and shake whenever the earth shakes). Communicates over
+DBus with the iBuddy.
 
 * py3buddypidgin.py -- demo code to process some smileys from Pidgin using
 DBus
