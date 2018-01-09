@@ -152,7 +152,7 @@ def main(argv):
 				location = quakedata['place']['country']
 			else:
 				location = 'unspecified'
-			print('Time %s, location: %s, magnitude %f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
+			print('Time %s, location: %s, magnitude %.1f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
 			panic(ibuddy,shakelength)
 			ignorelist.add(quakedata['id'])
 			time.sleep(0.5)
