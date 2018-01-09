@@ -1,0 +1,4 @@
+After starting the py3buddydbus.py program you can send signals to it using dbus-send with this command:
+
+$ dbus-send --session  --dest=nl.tjaldur.IBuddy   --type=method_call   /nl/tjaldur/IBuddy    nl.tjaldur.IBuddy.ExecuteBuddyCommand string:"RED:HEART:WINGSHIGH:GO:SHORTSLEEP:YELLOW:NOHEART:WINGSLOW:GO:SHORTSLEEP:HEART:BLUE:WINGSHIGH:GO:SHORTSLEEP:PURPLE:NOHEART:WINGSLOW:GO:SHORTSLEEP:HEART:CYAN:WINGSHIGH:GO:SHORTSLEEP:WHITE:NOHEART:WINGSLOW:GO:SHORTSLEEP:RESET"
+
