@@ -122,6 +122,9 @@ def main(argv):
         ## register a callback for messages that are received
 	ibuddy = bus.get("nl.tjaldur.IBuddy", "/nl/tjaldur/IBuddy")
 
+	## get notifications
+	notifications = bus.get('.Notifications')
+
 	## create a twitter api endpoint
 	api = twitter.Api(consumer_key=args.key,
 		consumer_secret=args.secret,
@@ -130,12 +133,15 @@ def main(argv):
 
 	## set of timestamps to ignore
 	ignorelist = set()
+	verbose = True
 
 	## loop
 	magnitudere = re.compile('(\d\.\d) magnitude #earthquake')
 	while(True):
 		curtime = calendar.timegm(time.gmtime())
-		print("Current time:", time.asctime(time.localtime(curtime)))
+		if verbose:
+			print("Current time:", time.asctime(time.localtime(curtime)))
+			sys.stdout.flush()
 
 		## get earthquake data from a Twitter account
 		quakes = api.GetUserTimeline(screen_name='quakestoday')
@@ -155,7 +161,10 @@ def main(argv):
 				location = quakedata['place']['country']
 			else:
 				location = 'unspecified'
-			print('Time %s, location: %s, magnitude %f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
+			notifications.Notify('test', 0, 'dialog-information', "New quake (%.1f) in %s" % (magnitude, location), "Time: %s, with magnitude %.1f" % (time.asctime(time.localtime(q.created_at_in_seconds)), magnitude), [], {}, 5000)
+			if verbose:
+				print('Time %s, location: %s, magnitude %.1f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
+				sys.stdout.flush()
 			panic(ibuddy,shakelength)
 			ignorelist.add(quakedata['id'])
 			time.sleep(0.5)
