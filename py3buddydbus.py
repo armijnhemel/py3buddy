@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-## Demo program to show how to use the py3buddy module with DBus and integrate
-## with Pidgin
+## Demo program to show how to use the py3buddy module with DBus and expose
+## it to other programs on the session DBus
 ##
 ## Uses python3-gobject-base and python3-pydbus (package names from Fedora)
 ##
@@ -11,7 +11,6 @@
 import sys, os, argparse, configparser
 import py3buddy
 import pydbus, gi
-
 
 ## wrap an iBuddy inside a DBus service
 class IBuddyDbusService(object):
@@ -25,6 +24,7 @@ class IBuddyDbusService(object):
 	</node>
         """
 
+	## make sure the iBuddy is available for the commands
 	def __init__(self,ibuddy):
 		self.ibuddy = ibuddy
 
@@ -76,16 +76,13 @@ def main(argv):
 		if section == 'twitter':
 			pass
 
-	## This is very ugly, but the only way (I know) to expose the iBuddy to the
-	## method processing the message from Pidgin
-	#global ibuddy
-
 	## initialize an iBuddy and check if a device was found and is accessible
 	ibuddy = py3buddy.iBuddy(buddy_config)
 	if ibuddy.dev == None:
 		print("No iBuddy found, or iBuddy not accessible", file=sys.stderr)
 		sys.exit(1)
 
+	## get a reference to the session DBus and expose the iBuddy on it
 	bus = pydbus.SessionBus()
 	bus.publish("nl.tjaldur.IBuddy", IBuddyDbusService(ibuddy))
 
