@@ -120,7 +120,10 @@ def main(argv):
 	bus = pydbus.SessionBus()
 
         ## register a callback for messages that are received
-	ibuddy = bus.get("nl.tjaldur.IBuddy", "/nl/tjaldur/IBuddy")
+	try:
+		ibuddy = bus.get("nl.tjaldur.IBuddy", "/nl/tjaldur/IBuddy")
+	except:
+		ibuddy = None
 
 	## get notifications
 	notifications = bus.get('.Notifications')
@@ -165,7 +168,11 @@ def main(argv):
 			if verbose:
 				print('Time %s, location: %s, magnitude %.1f\n' % (time.asctime(time.localtime(q.created_at_in_seconds)), location, magnitude))
 				sys.stdout.flush()
-			panic(ibuddy,shakelength)
+			if ibuddy != None:
+				try:
+					panic(ibuddy,shakelength)
+				except:
+					pass
 			ignorelist.add(quakedata['id'])
 			time.sleep(0.5)
 		time.sleep(60)
