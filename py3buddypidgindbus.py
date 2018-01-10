@@ -22,13 +22,15 @@ def processmsg(account, sender, message, conversation, flags):
 	## a list of smileys as sent by Google Hangout
 	smileys = [':D', ':-D', '^_^', ':-)', ':)', '☺️'] 
 
-	## a command to execute when a smiley is received
+	## a command to execute when a smiley is received: loop through a few colours, show a heartbeet, flap wings
 	smilecommand = 'RED:HEART:WINGSHIGH:GO:SHORTSLEEP:YELLOW:NOHEART:WINGSLOW:GO:SHORTSLEEP:HEART:BLUE:WINGSHIGH:GO:SHORTSLEEP:PURPLE:NOHEART:WINGSLOW:GO:SHORTSLEEP:HEART:CYAN:WINGSHIGH:GO:SHORTSLEEP:WHITE:NOHEART:WINGSLOW:GO:SHORTSLEEP:RESET'
 	for s in smileys:
 		if s in message:
 			ibuddy.ExecuteBuddyCommand(smilecommand)
 			break
 
+	## send an extra reset, as sometimes the iBuddy doesn't respond
+	## to all commands.
 	ibuddy.ExecuteBuddyCommand("RESET")
 
 def main(argv):
