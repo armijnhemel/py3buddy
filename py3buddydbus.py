@@ -20,17 +20,22 @@ class IBuddyDbusService(object):
 	<method name='ExecuteBuddyCommand'>
 	<arg type='s' name='command' direction='in'/>
 	</method>
+	<method name='Quit'/>
 	</interface>
 	</node>
         """
 
 	## make sure the iBuddy is available for the commands
-	def __init__(self,ibuddy):
+	def __init__(self,ibuddy, loop):
 		self.ibuddy = ibuddy
+		self.loop = loop
 
 	def ExecuteBuddyCommand(self, command):
 		self.ibuddy.executecommand(command)
 		self.ibuddy.reset()
+
+	def Quit(self):
+		self.loop.quit()
 
 def main(argv):
 	parser = argparse.ArgumentParser()
@@ -82,11 +87,12 @@ def main(argv):
 		print("No iBuddy found, or iBuddy not accessible", file=sys.stderr)
 		sys.exit(1)
 
+	loop = gi.repository.GObject.MainLoop()
 	## get a reference to the session DBus and expose the iBuddy on it
 	bus = pydbus.SessionBus()
-	bus.publish("nl.tjaldur.IBuddy", IBuddyDbusService(ibuddy))
+	bus.publish("nl.tjaldur.IBuddy", IBuddyDbusService(ibuddy, loop))
 
-	gi.repository.GObject.MainLoop().run()
+	loop.run()
 
 	## finally reset the i-buddy again
 	ibuddy.reset()
