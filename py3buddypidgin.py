@@ -8,7 +8,7 @@
 ## Copyright 2017-2018 - Armijn Hemel for Tjaldur Software Governance Solutions
 ## SPDX-Identifier: GPL-3.0
 
-import sys, os, argparse, configparser, random, time, calendar, json, re
+import sys, os, argparse, configparser, random, time, calendar, re
 import py3buddy
 import pydbus, gi
 
