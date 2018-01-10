@@ -123,7 +123,8 @@ def main(argv):
 	api = twitter.Api(consumer_key=args.key,
 		consumer_secret=args.secret,
 		access_token_key=args.token,
-		access_token_secret=args.accesssecret)
+		access_token_secret=args.accesssecret,
+		sleep_on_rate_limit=True)
 
 	## set of timestamps to ignore
 	ignorelist = set()
