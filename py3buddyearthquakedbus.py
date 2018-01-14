@@ -138,6 +138,7 @@ def main(argv):
 	## set of timestamps to ignore
 	ignorelist = set()
 	verbose = True
+	magnitudemin = 1.5
 
 	## loop
 	magnitudere = re.compile('(\d\.\d) magnitude #earthquake')
@@ -148,7 +149,14 @@ def main(argv):
 			sys.stdout.flush()
 
 		## get earthquake data from a Twitter account
-		quakes = api.GetUserTimeline(screen_name='quakestoday')
+		try:
+			quakes = api.GetUserTimeline(screen_name='quakestoday')
+		except:
+			if verbose:
+				print("Some error occured, sleeping for 60 seconds", file=sys.stderr)
+				sys.stderr.flush()
+				time.sleep(60)
+				continue
 		for q in quakes:
 			## only process the most recent ones that happened in the last 15 minutes = 900 seconds
 			if curtime - q.created_at_in_seconds > 900:
@@ -160,6 +168,8 @@ def main(argv):
 			if magnituderes == None:
 				continue
 			magnitude = float(magnituderes.groups()[0])
+			if magnitude < magnitudemin:
+				continue
 			shakelength = int(magnitude*2)
 			if 'place' in quakedata:
 				location = quakedata['place']['country']
