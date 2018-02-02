@@ -21,8 +21,8 @@ DBus
 
 * py3buddy.config -- example configuration file
 
-* 99-ibuddy.rules -- udev rules for iBuddy with productid 0x0001, 0x0002
-and 0x0004
+* 99-ibuddy.rules -- udev rules for iBuddy with productid 0x0001, 0x0002,
+0x0004 and 0x0005
 
 * macro-language.txt -- a description of the macro language that can be used
 to control the iBuddy.
@@ -32,11 +32,14 @@ This code has been tested with iBuddy devices with USB product id 0x0001, 0x0002
 out there with different product ids (for example there are rumours that there
 are devices with 0x0006).
 
+People have reported success with:
+
+* iBuddy Devil (id 0x0005)
+
 The following devices have not been tested with:
 
 * iBuddy black/white
 * iBuddy Angel
-* iBuddy Devil
 * iBuddy Molly (if this was ever released)
 
 This code was inspired by pybuddy (especially the idea for a macro language,

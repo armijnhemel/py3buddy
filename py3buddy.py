@@ -106,15 +106,17 @@ validcmds = set(['ULTRASHORTSLEEP', 'SHORTSLEEP', 'SLEEP', 'LONGSLEEP', 'GLACIAL
                   'BLUE', 'GREEN', 'CYAN', 'YELLOW', 'PURPLE', 'WHITE', 'LEFT',
                   'RIGHT', 'MIDDLE', 'MIDDLE2'])
 
+## There have been iBuddy products with various product IDs
+ibuddyids = [0x0001, 0x0002, 0x0004, 0x0005]
+
 class iBuddy:
-	## First find the iBuddy. There apparently also have been iBuddy products
-	## with other product IDs, such as 0x0001
+	## First find the iBuddy.
 	def __init__(self, buddy_config):
 		self.dev = None
 		if not 'productid' in buddy_config:
 			## productid not hardcoded, so search for it
 			buddyfound = False
-			for product_id in [0x0001, 0x0002, 0x0004]:
+			for product_id in ibuddyids:
 				self.dev = usb.core.find(idVendor=0x1130, idProduct=product_id)
 				if self.dev == None:
 					continue
@@ -124,7 +126,7 @@ class iBuddy:
 			if not buddyfound:
 				return
 		else:
-			if not buddy_config['productid'] in set([0x0001, 0x0002, 0x004]):
+			if not buddy_config['productid'] in ibuddyids:
 				return
 			self.dev = usb.core.find(idVendor=0x1130, idProduct=buddy_config['productid'])
 
