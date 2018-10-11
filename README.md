@@ -10,11 +10,13 @@ macro language and executes it
 dice, executing commands)
 
 * py3buddyearthquake.py -- demo code (monitoring a Twitter channel with
-earthquake information and shake whenever the earth shakes)
+earthquake information and shake whenever the earth shakes). Needs the Python
+Twitter bindings (python3-twitter package on Fedora).
 
 * py3buddyearthquakedbus.py -- demo code (monitoring a Twitter channel with
 earthquake information and shake whenever the earth shakes). Communicates over
-DBus with the iBuddy.
+DBus with the iBuddy.. Needs the Python Twitter bindings (python3-twitter
+package on Fedora).
 
 * py3buddypidgin.py -- demo code to process some smileys from Pidgin using
 DBus
