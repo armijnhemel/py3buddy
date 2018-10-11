@@ -22,7 +22,8 @@ DBus
 * py3buddy.config -- example configuration file
 
 * 99-ibuddy.rules -- udev rules for iBuddy with productid 0x0001, 0x0002,
-0x0004 and 0x0005
+0x0004 and 0x0005. Add this to the right udev directory on your system (for
+example: /etc/udev/rules.d/ on Fedora).
 
 * macro-language.txt -- a description of the macro language that can be used
 to control the iBuddy.
