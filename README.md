@@ -15,7 +15,7 @@ Twitter bindings (python3-twitter package on Fedora).
 
 * py3buddyearthquakedbus.py -- demo code (monitoring a Twitter channel with
 earthquake information and shake whenever the earth shakes). Communicates over
-DBus with the iBuddy.. Needs the Python Twitter bindings (python3-twitter
+DBus with the iBuddy. Needs the Python Twitter bindings (python3-twitter
 package on Fedora).
 
 * py3buddypidgin.py -- demo code to process some smileys from Pidgin using
