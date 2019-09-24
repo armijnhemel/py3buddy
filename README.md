@@ -58,3 +58,10 @@ pybuddy: Python daemon to control your i-buddy USB device
 
 by luis.peralta, Jose.Carlos.Luna, and leandro.vazquez
 released under MIT License (http://www.opensource.org/licenses/mit-license.php)
+
+## Buying an iBuddy
+
+As these devices were a flop they are a bit difficult to find, but with some
+effort you can still find them. There might still be shops selling them (at
+either full, or reduced prices) but in the past sellers have also offered
+them in bulk.
