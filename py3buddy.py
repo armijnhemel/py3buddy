@@ -19,14 +19,12 @@
 # This program was created as an excuse for me to play with pyusb during
 # the 2017 end of year.
 #
-# Copyright 2017-2018 - Armijn Hemel for Tjaldur Software Governance Solutions
+# Copyright 2017-2019 - Armijn Hemel for Tjaldur Software Governance Solutions
 # SPDX-Identifier: GPL-3.0
 
 # See https://github.com/pyusb/pyusb/blob/master/docs/tutorial.rst
 # for some of the explanations of the USB part
 
-import sys
-import os
 import time
 
 # import modules from pyusb
@@ -148,14 +146,14 @@ class iBuddy:
         try:
             if self.dev.is_kernel_driver_active(0) is True:
                 self.dev.detach_kernel_driver(0)
-        except usb.core.USBError as e:
+        except usb.core.USBError:
             self.dev = None
             return
 
         try:
             if self.dev.is_kernel_driver_active(1) is True:
                 self.dev.detach_kernel_driver(1)
-        except usb.core.USBError as e:
+        except usb.core.USBError:
             self.dev = None
             return
 
@@ -313,7 +311,7 @@ class iBuddy:
 
         # check if the list of commands actually makes sense
         # if not, return. Empty commands are allowed.
-        if len(list(filter(lambda x: x not in validcmds and x != '', msgs))) != 0:
+        if list(filter(lambda x: x not in validcmds and x != '', msgs)) != []:
             print(msgs)
             return
         for i in msgs:
