@@ -15,8 +15,7 @@ import py3buddy
 
 
 def panic(ibuddy, paniccount):
-    # a demo version to show some of the  capabilities of
-    # the iBuddy
+    # a demo version to show some of the capabilities of the iBuddy
 
     # first reset the iBuddy
     ibuddy.reset()
@@ -46,10 +45,11 @@ def panic(ibuddy, paniccount):
         # pick a random colour for the head LED
         ibuddy.setcolour(random.choice(py3buddy.allcolours))
 
-        # wiggle randomly
+        # random wiggle
         ibuddy.wiggle(random.choice(['right', 'left', 'middle', 'middlereset']))
         ibuddy.sendcommand()
         time.sleep(0.1)
+
     # extra reset as sometimes the device doesn't respond
     ibuddy.reset()
     ibuddy.reset()
