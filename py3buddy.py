@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # A simple program to control the Tenx Technology, Inc. iBuddy
 # which was sold as a figurine for MSN Messenger to respond to smileys
@@ -20,7 +20,7 @@
 # the 2017 end of year.
 #
 # Copyright 2017-2019 - Armijn Hemel for Tjaldur Software Governance Solutions
-# SPDX-Identifier: GPL-3.0
+# SPDX-Identifier: MIT
 
 # See https://github.com/pyusb/pyusb/blob/master/docs/tutorial.rst
 # for some of the explanations of the USB part

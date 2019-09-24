@@ -1,12 +1,12 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Demo program to show how to use the py3buddy module with DBus and integrate
 # with Pidgin
 #
 # Uses python3-gobject-base and python3-pydbus (package names from Fedora)
 #
-# Copyright 2017-2018 - Armijn Hemel for Tjaldur Software Governance Solutions
-# SPDX-Identifier: GPL-3.0
+# Copyright 2017-2019 - Armijn Hemel for Tjaldur Software Governance Solutions
+# SPDX-Identifier: MIT
 
 import sys
 import os

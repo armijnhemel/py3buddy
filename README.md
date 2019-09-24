@@ -1,5 +1,5 @@
 # py3buddy
-Python 3 code to work with the iBuddy MSN figurine released under the GPL-3.0 license.
+Python 3 code to work with the iBuddy MSN figurine released under the MIT license.
 
 * py3buddy.py -- main file with class
 

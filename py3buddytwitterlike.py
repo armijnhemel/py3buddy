@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Demo program to show how to use the py3buddy module with Twitter
 # DBus version
@@ -7,7 +7,7 @@
 # https://github.com/bear/python-twitter
 #
 # Copyright 2017-2019 - Armijn Hemel for Tjaldur Software Governance Solutions
-# SPDX-Identifier: GPL-3.0
+# SPDX-Identifier: MIT
 
 import sys
 import os
