@@ -54,10 +54,10 @@ https://github.com/ewall/pybuddy/
 
 The original version of pybuddy came with the following notice:
 
-pybuddy: Python daemon to control your i-buddy USB device
+    pybuddy: Python daemon to control your i-buddy USB device
 
-by luis.peralta, Jose.Carlos.Luna, and leandro.vazquez
-released under MIT License (http://www.opensource.org/licenses/mit-license.php)
+    by luis.peralta, Jose.Carlos.Luna, and leandro.vazquez
+    released under MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 ## Buying an iBuddy
 
