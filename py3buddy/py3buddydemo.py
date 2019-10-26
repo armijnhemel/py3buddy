@@ -173,5 +173,4 @@ def main(argv):
     ibuddy.reset()
 
 if __name__ == "__main__":
-    __import__('pdb').set_trace()
     main(sys.argv)
