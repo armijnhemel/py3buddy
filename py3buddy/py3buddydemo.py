@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Demo program to show how to use the py3buddy module
 #
 # Copyright 2017-2019 - Armijn Hemel for Tjaldur Software Governance Solutions
@@ -175,4 +173,5 @@ def main(argv):
     ibuddy.reset()
 
 if __name__ == "__main__":
+    __import__('pdb').set_trace()
     main(sys.argv)
