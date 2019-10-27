@@ -1,4 +1,7 @@
 # py3buddy
+
+**WARNING**: during a test of this project, our i-Buddy started to burn. Do not run this device unattended!
+
 Python 3 code to work with the iBuddy MSN figurine released under the MIT license.
 
 * py3buddy.py -- main file with class
