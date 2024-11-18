@@ -62,10 +62,10 @@ def main(argv):
     configfile = open(args.cfg, 'r')
 
     try:
-      config.read_file(configfile)
+        config.read_file(configfile)
     except Exception as e:
-      print(f"Cannot read configuration file: {e}", file=sys.stderr)
-      sys.exit(1)
+        print(f"Cannot read configuration file: {e}", file=sys.stderr)
+        sys.exit(1)
 
     buddy_config = {}
     for section in config.sections():
