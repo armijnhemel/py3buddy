@@ -108,9 +108,9 @@ def main(argv):
     configfile = open(args.cfg, 'r')
 
     try:
-        config.readfp(configfile)
-    except Exception:
-        print("Cannot read configuration file", file=sys.stderr)
+        config.read_file(configfile)
+    except Exception as e:
+        print(f"Cannot read configuration file: {e}", file=sys.stderr)
         sys.exit(1)
 
     buddy_config = {}
