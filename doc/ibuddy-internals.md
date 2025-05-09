@@ -11,9 +11,11 @@ the little rubber feet that you have to remove first.
 
 Inside there is a board, with a number of wires attached to it. These are for
 the LEDs, the magnets for the wing flapping and wiggling. The board itself
-seems to be glued to the bottom and cannot easily be removed.
+seems is held in place by some plastic bits, that easily snap off when forced.
 
 ![Photo of the iBuddy board](ibuddy_board.jpg)
+![Photo of the iBuddy board](ibuddy_board2.jpg)
+![Photo of the iBuddy board](ibuddy_board3.jpg)
 
 Inside the iBuddy there are some magnets for flapping the wings and wiggling,
 as well as LEDs. It looks like the wires for the LEDs are colour coded.
