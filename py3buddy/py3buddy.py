@@ -126,9 +126,8 @@ class iBuddy:
                 self.dev = usb.core.find(idVendor=0x1130, idProduct=product_id)
                 if self.dev is None:
                     continue
-                else:
-                    buddyfound = True
-                    break
+                buddyfound = True
+                break
             if not buddyfound:
                 return
         else:
@@ -311,7 +310,7 @@ class iBuddy:
 
         # check if the list of commands actually makes sense
         # if not, return. Empty commands are allowed.
-        if list(filter(lambda x: x not in validcmds and x != '', msgs)) != []:
+        if list(filter(lambda x: x not in validcmds and x != '', msgs)):
             print(msgs)
             return
         for i in msgs:
