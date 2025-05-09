@@ -4,34 +4,42 @@
 
 Python 3 code to work with the iBuddy MSN figurine released under the MIT license.
 
-* py3buddy.py -- main file with class
+* `py3buddy.py` -- main file with class
 
-* py3buddydbus.py -- DBus wrapper around the iBuddy, accepts commands in the
+* `py3buddydbus.py` -- DBus wrapper around the iBuddy, accepts commands in the
 macro language and executes it
 
-* py3buddydemo.py -- demo code (panic, looping through all colours, 8 sided
+* `py3buddydemo.py` -- demo code (panic, looping through all colours, 8 sided
 dice, executing commands)
 
-* py3buddyearthquake.py -- demo code (monitoring a Twitter channel with
+* `py3buddy.config` -- example configuration file
+
+* `99-ibuddy.rules` -- udev rules for iBuddy with productid 0x0001, 0x0002,
+0x0004 and 0x0005. Add this to the right udev directory on your system (for
+example: /etc/udev/rules.d/ on Fedora).
+
+The following three scripts are likely no longer functioning due to changes
+in Twitter APIs and Pidging being no longer very useful as chat program and it
+hasn't seen much development. These scripts are there just for reference to
+see how the library can be used.
+
+* `py3buddyearthquake.py` -- demo code (monitoring a Twitter channel with
 earthquake information and shake whenever the earth shakes). Needs the Python
 Twitter bindings (python3-twitter package on Fedora).
 
-* py3buddyearthquakedbus.py -- demo code (monitoring a Twitter channel with
+* `py3buddyearthquakedbus.py` -- demo code (monitoring a Twitter channel with
 earthquake information and shake whenever the earth shakes). Communicates over
 DBus with the iBuddy. Needs the Python Twitter bindings (python3-twitter
 package on Fedora).
 
-* py3buddypidgin.py -- demo code to process some smileys from Pidgin using
+* `py3buddypidgin.py` -- demo code to process some smileys from Pidgin using
 DBus
 
-* py3buddy.config -- example configuration file
+In the documentation directory `doc/` you can find:
 
-* 99-ibuddy.rules -- udev rules for iBuddy with productid 0x0001, 0x0002,
-0x0004 and 0x0005. Add this to the right udev directory on your system (for
-example: /etc/udev/rules.d/ on Fedora).
-
-* macro-language.txt -- a description of the macro language that can be used
+* `macro-language.txt` -- a description of the macro language that can be used
 to control the iBuddy.
+* `ibuddy-internals.md` -- a description of the iBuddy internals.
 
 This code has been tested with iBuddy devices with USB product id 0x0001, 0x0002
 (regular) and 0x0004 (iBuddy Twins). There are apparently more iBuddy devices
@@ -53,7 +61,7 @@ although the original product also had something like this), but no code was
 copied. The code for pybuddy can be found here (note: the original Google code
 site seems to gone):
 
-https://github.com/ewall/pybuddy/
+<https://github.com/ewall/pybuddy/>
 
 The original version of pybuddy came with the following notice:
 
